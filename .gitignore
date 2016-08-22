@@ -1,3 +1,6 @@
 node_modules/
 client/node_modules
 client/bower_components
+rethinkdb_data/
+npm_debug.log
+.env
