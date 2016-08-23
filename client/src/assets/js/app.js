@@ -2,9 +2,16 @@ $(document).foundation();
 
 $(document).ready(function() {
 
-
   $('#email-form').submit(function(e){
-    let data = {email: $('input[name=email]').val()}
+
+    let path = window.location.pathname;
+    let link  = path.substr(1);
+
+    let data = {
+      email: $('input[name=email]').val(),
+      code: link
+    }
+
     $.ajax({
       type        : 'POST',
       url         : '/',

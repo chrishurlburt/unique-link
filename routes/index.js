@@ -1,17 +1,31 @@
 var express = require('express');
 var router = express.Router();
-
+const path = require('path')
 const crypto = require('crypto')
 const connection = require('../middleware/connection')
 const r = require('rethinkdb')
 
-
-/* GET home page. */
 router
   .get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+    res.sendFile(path.join(__dirname + '/../client/dist/index.html'))
+  })
+  .get('/:link', function(req, res, next) {
+    res.sendFile(path.join(__dirname + '/../client/dist/index.html'))
   })
   .post('/', connection, (req, res, next) => {
+
+    if (typeof req.body.code !== undefined) {
+
+      r.table('users')
+        .filter({link: req.body.code})
+        .update({entries: r.row('entries').add(1)})
+        .run(global.db, (err, result) => {
+          if (err) throw err
+          console.log(result)
+        })
+
+    }
+
 
     let user = {
       email: req.body.email,
